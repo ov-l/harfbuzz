@@ -31,14 +31,18 @@
 
 #include <TargetConditionals.h>
 #if TARGET_OS_IPHONE
-#  include <CoreText/CoreText.h>
-#  include <CoreGraphics/CoreGraphics.h>
+#include <CoreGraphics/CoreGraphics.h>
+#include <CoreText/CoreText.h>
 #else
-#  include <ApplicationServices/ApplicationServices.h>
+// Temp MacOS fix for clang-20
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Welaborated-enum-base"
+#pragma clang diagnostic ignored "-Wcast-align"
+#include <ApplicationServices/ApplicationServices.h>
+#pragma clang diagnostic pop
 #endif
 
 HB_BEGIN_DECLS
-
 
 /**
  * HB_CORETEXT_TAG_MORT:
@@ -50,7 +54,7 @@ HB_BEGIN_DECLS
  * https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6mort.html
  *
  **/
-#define HB_CORETEXT_TAG_MORT HB_TAG('m','o','r','t')
+#define HB_CORETEXT_TAG_MORT HB_TAG('m', 'o', 'r', 't')
 
 /**
  * HB_CORETEXT_TAG_MORX:
@@ -62,7 +66,7 @@ HB_BEGIN_DECLS
  * https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6morx.html
  *
  **/
-#define HB_CORETEXT_TAG_MORX HB_TAG('m','o','r','x')
+#define HB_CORETEXT_TAG_MORX HB_TAG('m', 'o', 'r', 'x')
 
 /**
  * HB_CORETEXT_TAG_KERX:
@@ -74,33 +78,24 @@ HB_BEGIN_DECLS
  * https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6kerx.html
  *
  **/
-#define HB_CORETEXT_TAG_KERX HB_TAG('k','e','r','x')
+#define HB_CORETEXT_TAG_KERX HB_TAG('k', 'e', 'r', 'x')
 
-
-HB_EXTERN hb_face_t *
-hb_coretext_face_create (CGFontRef cg_font);
+HB_EXTERN hb_face_t *hb_coretext_face_create(CGFontRef cg_font);
 
 HB_EXTERN hb_face_t *
-hb_coretext_face_create_from_file_or_fail (const char   *file_name,
-					   unsigned int  index);
+hb_coretext_face_create_from_file_or_fail(const char *file_name,
+                                          unsigned int index);
 
 HB_EXTERN hb_face_t *
-hb_coretext_face_create_from_blob_or_fail (hb_blob_t    *blob,
-					   unsigned int  index);
+hb_coretext_face_create_from_blob_or_fail(hb_blob_t *blob, unsigned int index);
 
-HB_EXTERN hb_font_t *
-hb_coretext_font_create (CTFontRef ct_font);
+HB_EXTERN hb_font_t *hb_coretext_font_create(CTFontRef ct_font);
 
+HB_EXTERN CGFontRef hb_coretext_face_get_cg_font(hb_face_t *face);
 
-HB_EXTERN CGFontRef
-hb_coretext_face_get_cg_font (hb_face_t *face);
+HB_EXTERN CTFontRef hb_coretext_font_get_ct_font(hb_font_t *font);
 
-HB_EXTERN CTFontRef
-hb_coretext_font_get_ct_font (hb_font_t *font);
-
-HB_EXTERN void
-hb_coretext_font_set_funcs (hb_font_t *font);
-
+HB_EXTERN void hb_coretext_font_set_funcs(hb_font_t *font);
 
 HB_END_DECLS
 
