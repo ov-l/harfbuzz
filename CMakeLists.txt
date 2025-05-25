@@ -493,7 +493,7 @@ target_include_directories(harfbuzz PUBLIC
 if (HB_HAVE_FREETYPE AND TARGET freetype)
   target_link_libraries(harfbuzz freetype)
 endif ()
-
+message(STATUS "HarfBuzz version: ${HB_VERSION} (${HB_VERSION_MAJOR}.${HB_VERSION_MINOR}.${HB_VERSION_MICRO}) is installed in ${CMAKE_INSTALL_INCLUDEDIR}")
 
 ## Define harfbuzz-icu library
 if (HB_HAVE_ICU)
