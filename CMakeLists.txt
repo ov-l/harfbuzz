@@ -10,6 +10,8 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include (GNUInstallDirs)
+
 ## Disallow in-source builds, as CMake generated make files can collide with autotools ones
 if (NOT MSVC AND "${PROJECT_BINARY_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
   message(FATAL_ERROR
@@ -1076,7 +1078,6 @@ endif ()
 
 
 ## Install
-include (GNUInstallDirs)
 
 if (NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
   install(FILES ${project_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/harfbuzz)
