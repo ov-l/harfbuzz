@@ -312,18 +312,14 @@ endif ()
 if (HB_HAVE_GRAPHITE2)
   add_compile_definitions(HAVE_GRAPHITE2)
 
-  find_path(GRAPHITE2_INCLUDE_DIR graphite2/Font.h)
-  find_library(GRAPHITE2_LIBRARY graphite2)
-
-  include_directories(${GRAPHITE2_INCLUDE_DIR})
+  find_package(graphite2 REQUIRED COMPONENTS graphite2)
 
   list(APPEND project_headers ${PROJECT_SOURCE_DIR}/src/hb-graphite2.h)
 
-  list(APPEND THIRD_PARTY_LIBS ${GRAPHITE2_LIBRARY})
+  list(APPEND THIRD_PARTY_LIBS gr2_::graphite2)
 
   list(APPEND PC_REQUIRES_PRIV "graphite2 >= 1.2.0")
 
-  mark_as_advanced(GRAPHITE2_INCLUDE_DIR GRAPHITE2_LIBRARY)
 endif ()
 
 if (HB_HAVE_GLIB)
